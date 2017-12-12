@@ -1,9 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
 import pdb
 import argparse
 import sys
 import config
+from Robinhood import Robinhood
 
 app = Flask(__name__, static_folder="../static/dist",
             template_folder="../static")
@@ -21,8 +22,6 @@ elif args.env == 'prod':
 else:
     app.config.from_object('config.Config')
 
-print app.config
-
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -31,9 +30,24 @@ def index():
 def hello():
     return "Hello World!"
 
-@app.route("/stocks")
-def get_dem_stocks():
-    req = requests.get("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=VGZ&interval=1min&outputsize=compact&datatype=json&apikey=https://www.alphavantage.co/query")                     
+@app.route("/stocks/<stock_symbol>")
+def get_dem_stocks(stock_symbol):
+    payload = {
+        'function': 'TIME_SERIES_INTRADAY',
+        'symbol': stock_symbol,
+        'interval': request.args.get('interval', '') or '1min',
+        'outputsize': 'compact',
+        'datatype': 'json',
+        'apikey': app.config['ALPHA_V_KEY']
+    }
+    req = requests.get("https://www.alphavantage.co/query", params=payload)
+    return req.text
 
+@app.route("/robinhood/login")
+def login():
+    my_trader = Robinhood()
+    logged_in = my_trader.login(username=app.config['ROBINHOOD_USER'], password=app.config['ROBINHOOD_PASS'])
+    pdb.set_trace()
+    
 if __name__ == "__main__":
     app.run()
