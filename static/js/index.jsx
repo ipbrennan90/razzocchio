@@ -1,3 +1,5 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
 
-
-alert("HELLO WORLD!");
+ReactDOM.render(<App/>, document.getElementById("content"))
