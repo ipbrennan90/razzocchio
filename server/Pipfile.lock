@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1b14d152b32c360537bbb8d386c1d3b7e912f8e5a7f665cecd0f4a89b6c2be2e"
+            "sha256": "112b0c353d41b2ad734bf9039e02f06d31c07bd0d9c956b73a8aa4cd948ac740"
         },
         "requires": {},
         "sources": [
@@ -13,8 +13,17 @@
         ]
     },
     "default": {
+        "alembic": {
+            "version": "==0.9.6"
+        },
+        "bcrypt": {
+            "version": "==3.1.4"
+        },
         "certifi": {
             "version": "==2017.11.5"
+        },
+        "cffi": {
+            "version": "==1.11.2"
         },
         "chardet": {
             "version": "==3.0.4"
@@ -25,6 +34,18 @@
         "flask": {
             "version": "==0.12.2"
         },
+        "flask-bcrypt": {
+            "version": "==0.7.1"
+        },
+        "flask-migrate": {
+            "version": "==2.1.1"
+        },
+        "flask-script": {
+            "version": "==2.0.6"
+        },
+        "flask-sqlalchemy": {
+            "version": "==2.3.2"
+        },
         "idna": {
             "version": "==2.6"
         },
@@ -34,8 +55,23 @@
         "jinja2": {
             "version": "==2.10"
         },
+        "mako": {
+            "version": "==1.0.7"
+        },
         "markupsafe": {
             "version": "==1.0"
+        },
+        "psycopg2": {
+            "version": "==2.7.3.2"
+        },
+        "pycparser": {
+            "version": "==2.18"
+        },
+        "python-dateutil": {
+            "version": "==2.6.1"
+        },
+        "python-editor": {
+            "version": "==1.0.3"
         },
         "requests": {
             "version": "==2.18.4"
@@ -45,6 +81,9 @@
         },
         "six": {
             "version": "==1.11.0"
+        },
+        "sqlalchemy": {
+            "version": "==1.1.15"
         },
         "urllib3": {
             "version": "==1.22"
