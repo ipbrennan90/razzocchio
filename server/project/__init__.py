@@ -7,7 +7,6 @@ from Robinhood import Robinhood
 import functools
 import project.config as config
 
-
 app = Flask(__name__, static_folder="../../static/dist",
             template_folder="../../static")
 
@@ -18,6 +17,8 @@ bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
 from project.models.user import User
+from project.controllers import stocks
+
 
 
 def authenticate():
@@ -51,24 +52,10 @@ def router(text=None):
         return render_template("index.html")
 
 
-@app.route("/stocks/<stock_symbol>")
-@requires_authorization
+@app.route("/api/stocks/<stock_symbol>")
 def get_dem_stocks(stock_symbol):
-    payload = {
-        'function': 'TIME_SERIES_INTRADAY',
-        'symbol': stock_symbol,
-        'interval': request.args.get('interval', '') or '1min',
-        'outputsize': 'compact',
-        'datatype': 'json',
-        'apikey': app.config['ALPHA_V_KEY']
-    }
-    req = requests.get("https://www.alphavantage.co/query", params=payload)
-    return req.text
+    return stocks.get(request, stock_symbol)
 
-
-@app.route('/api/test', methods=["GET"])
-def test():
-    return 'hello test'
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -106,10 +93,12 @@ def login():
         status = False
     return jsonify({'result': status})
 
+
 @app.route('/api/logout', methods=['POST'])
 def logout():
     session.pop('logged_in', None)
     return jsonify({'result': 'success'})
+
 
 @app.route('/api/status')
 def status():
@@ -118,6 +107,7 @@ def status():
             return jsonify({'status': True})
     else:
         return jsonify({'status': False})
+
 
 if __name__ == "__main__":
     app.run()
